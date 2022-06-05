@@ -63,12 +63,21 @@ class UserController extends Controller
 
     public function UserProfile()
     {
-        //
+        return response()->json([
+            'message' => 'Perfil de usuario',
+            'user' => auth()->user()
+        ], 200);
     }
 
     public function LogOut()
     {
-        //
+        auth()->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json([
+            'message' => 'Logout exitoso'
+        ], 200);
     }
 
 }
