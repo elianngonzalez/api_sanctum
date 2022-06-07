@@ -41,7 +41,8 @@ class UserController extends Controller
 
         if (isset($user->id)){
             if (Hash::check($request->password, $user->password)){
-                $token = $user->createToken('auth_token')->accessToken;
+                                                        //accessToken;
+                $token = $user->createToken('auth_token')->plainTextToken;
                 return response()->json([
                     'message' => 'Login exitoso',
                     'token' => $token
@@ -71,13 +72,14 @@ class UserController extends Controller
 
     public function LogOut()
     {
-        auth()->user()->tokens->each(function ($token, $key) {
+        auth()->user()->tokens->each(function ($token) {
             $token->delete();
         });
 
         return response()->json([
             'message' => 'Logout exitoso'
         ], 200);
+
     }
 
 }
